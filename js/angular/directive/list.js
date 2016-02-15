@@ -36,6 +36,7 @@
 * ```html
 * <ion-list ng-controller="MyCtrl"
 *           show-delete="shouldShowDelete"
+*           delete-interaction="interactWhileDeleting"
 *           show-reorder="shouldShowReorder"
 *           can-swipe="listCanSwipe">
 *   <ion-item ng-repeat="item in items"
@@ -76,6 +77,8 @@
 * @param type {string=} The type of list to use (list-inset or card)
 * @param show-delete {boolean=} Whether the delete buttons for the items in the list are
 * currently shown or hidden.
+* @param delete-interaction {boolean=} Whether the list item allows interaction while the
+* delete button is visible. Default: false
 * @param show-reorder {boolean=} Whether the reorder buttons for the items in the list are
 * currently shown or hidden.
 * @param can-swipe {boolean=} Whether the items in the list are allowed to be swiped to reveal
@@ -142,6 +145,11 @@ function($timeout) {
               listCtrl.showDelete(value);
             });
           }
+          if (isDefined($attr.deleteInteraction)) {
+            $scope.$watch('!!(' + $attr.deleteInteraction + ')', function(value) {
+              listCtrl.deleteInteraction(value);
+            });
+          }
           if (isDefined($attr.showReorder)) {
             $scope.$watch('!!(' + $attr.showReorder + ')', function(value) {
               listCtrl.showReorder(value);
@@ -158,7 +166,8 @@ function($timeout) {
             listCtrl.canSwipeItems(!isShown);
 
             $element.children().toggleClass('list-left-editing', isShown);
-            $element.toggleClass('disable-pointer-events', isShown);
+
+            if (!listCtrl.deleteInteraction()) $element.toggleClass('disable-pointer-events', isShown);
 
             var deleteButton = jqLite($element[0].getElementsByClassName('item-delete'));
             setButtonShown(deleteButton, listCtrl.showDelete);
