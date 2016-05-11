@@ -50,12 +50,12 @@ IonicModule.service('$ionicListDelegate', ionic.DelegateService([
   'showDelete',
   /**
    * @ngdoc method
-   * @name $ionicListDelegate#deleteInteractable
-   * @param {boolean=} deleteInteractable Set whether or not list should allow user interaction
+   * @name $ionicListDelegate#deleteInteraction
+   * @param {boolean=} deleteInteraction Set whether or not list should allow user interaction
    * with items while the delete button is shown.
    * @returns {boolean} Whether the items are interactable while delete buttons are shown.
    */
-  'deleteInteractable',
+  'deleteInteraction',
   /**
    * @ngdoc method
    * @name $ionicListDelegate#canSwipeItems
